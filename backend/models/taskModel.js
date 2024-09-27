@@ -1,4 +1,4 @@
-const pool = require('../db/DBconfig');
+const pool = require("../db/DBconfig");
 
 // Function to get all tasks
 const getAllTasks = async () => {
@@ -17,10 +17,17 @@ const createTask = async (task) => {
 
 // Function to update a task
 const updateTask = async (id, task, status) => {
-  const result = await pool.query(
-    "UPDATE tasks SET task = $2, status = $3 WHERE id = $1 RETURNING *",
-    [id, task, status]
-  );
+  let query, values;
+
+  if (task) {
+    query = "UPDATE tasks SET task = $2, status = $3 WHERE id = $1 RETURNING *";
+    values = [id, task, status];
+  } else {
+    query = "UPDATE tasks SET status = $2 WHERE id = $1 RETURNING *";
+    values = [id, status];
+  }
+
+  const result = await pool.query(query, values);
   return result.rows[0];
 };
 

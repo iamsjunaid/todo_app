@@ -29,7 +29,7 @@ const modifyTask = async (req, res) => {
   const { id } = req.params;
   const { task, status } = req.body;
   try {
-    const updatedTask = await taskModel.updateTask(id, task, status);
+    const updatedTask = await taskModel.updateTask(id, task || null, status);
     if (!updatedTask) {
       return res.status(404).send("Task not found");
     }
