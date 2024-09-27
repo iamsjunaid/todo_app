@@ -18,8 +18,8 @@ const createTask = async (task) => {
 // Function to update a task
 const updateTask = async (id, task, status) => {
   const result = await pool.query(
-    "UPDATE tasks SET task = $1, status = $2 WHERE id = $3 RETURNING *",
-    [task, status, id]
+    "UPDATE tasks SET task = $2, status = $3 WHERE id = $1 RETURNING *",
+    [id, task, status]
   );
   return result.rows[0];
 };
